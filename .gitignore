@@ -1,0 +1,19 @@
+# venv (lives outside this folder, but just in case)
+astroML/
+*-env/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data (often too large / shouldn't be committed — regenerate via fetch scripts instead)
+data/*.csv
+data/*.npy
+data/*.pkl
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
