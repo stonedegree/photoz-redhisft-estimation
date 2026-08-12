@@ -7,8 +7,8 @@ venv/
 .ipynb_checkpoints/
 
 # Data (often too large / shouldn't be committed — regenerate via fetch scripts instead)
-data/*.csv
-data/*.npy
+**/data/*.csv
+**/data/*.npy**/
 data/*.pkl
 
 # macOS
