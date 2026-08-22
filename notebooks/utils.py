@@ -130,3 +130,36 @@ def optimize_hyper_params(base_model, X_tune, y_tune, param_grid, grid__random):
         
     # Return the search (for plot), best hyperparameters, and best rmse
     return (search, search.best_params_, search.best_score_)
+
+def binned_metrics(z_pred, z_true, bin_edges, label):
+    print("-" * 4, label, "-" * 4)
+    print(f"{'bin':<12}{'N':<10}{'bias':<25}{'nmad':<25}{'outlier_frac':<25}")
+    for i in range(len(bin_edges) - 1):
+        lo, hi = bin_edges[i], bin_edges[i + 1]
+        mask = (z_true >= lo) & (z_true < hi)
+        n = mask.sum()
+        if n == 0:
+            continue
+        zt, zp = z_true[mask], z_pred[mask]
+        print(f"{lo:.2f}-{hi:.2f}   {n:<10}{bias(zp, zt):<25.16f}{nmad(zp, zt):<25.16f}{outlier_fraction(zp, zt):<25.16f}")
+    print("\n")
+
+def plot_nmad_vs_bin(z_pred, z_true, bin_edges, title):
+    bin_labels, nmads = [], []
+    for i in range(len(bin_edges) - 1):
+        lo, hi = bin_edges[i], bin_edges[i + 1]
+        mask = (z_true >= lo) & (z_true < hi)
+        if mask.sum() == 0:
+            continue
+        bin_labels.append(f"{lo:.2f}-{hi:.2f}")
+        nmads.append(nmad(z_pred[mask], z_true[mask]))
+
+    fig, ax = plt.subplots(figsize=(7, 4))
+    ax.plot(bin_labels, nmads, marker='o', color='navy')
+    ax.grid(True, linestyle='--', color='lightgray', alpha=0.8)
+    ax.set_xlabel('Redshift bin')
+    ax.set_ylabel('NMAD')
+    ax.set_title(title)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
