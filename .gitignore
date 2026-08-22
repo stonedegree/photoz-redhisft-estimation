@@ -9,7 +9,7 @@ venv/
 # Data (often too large / shouldn't be committed — regenerate via fetch scripts instead)
 **/data/*.csv
 **/data/*.npy**/
-data/*.pkl
+**/data/*.pkl
 
 # macOS
 .DS_Store
@@ -17,3 +17,4 @@ data/*.pkl
 # Python
 __pycache__/
 *.pyc
+notebooks/data/
